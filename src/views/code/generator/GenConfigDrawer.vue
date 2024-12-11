@@ -65,6 +65,7 @@
               <a-option value="LocalDate">LocalDate</a-option>
               <a-option value="LocalTime">LocalTime</a-option>
               <a-option value="LocalDateTime">LocalDateTime</a-option>
+              <a-option value="JSONObject">JSONObject</a-option>
             </a-select>
           </template>
           <template #comment="{ record }">
