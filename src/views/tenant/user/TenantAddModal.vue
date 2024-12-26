@@ -139,7 +139,7 @@ const columns: Columns = reactive([
     options: dbConnectListOptions,
     rules: [{ required: true, message: '请选择数据连接' }],
     hide: () => {
-      return isUpdate.value
+      return isUpdate.value || form.isolationLevel !== 1
     },
   },
   {
