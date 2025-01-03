@@ -41,8 +41,20 @@ export interface RouteItem {
   affix: boolean
 }
 
+/** 认证类型 */
+export enum AuthTypeEnum {
+  ACCOUNT = 'ACCOUNT',
+  PHONE = 'PHONE',
+  EMAIL = 'EMAIL',
+  SOCIAL = 'SOCIAL',
+}
+export interface AuthReq {
+  clientId?: string
+  authType?: string
+}
+
 /** 账号登录请求参数 */
-export interface AccountLoginReq {
+export interface AccountLoginReq extends AuthReq {
   username: string
   password: string
   captcha: string
@@ -50,13 +62,13 @@ export interface AccountLoginReq {
 }
 
 /** 手机号登录请求参数 */
-export interface PhoneLoginReq {
+export interface PhoneLoginReq extends AuthReq {
   phone: string
   captcha: string
 }
 
 /** 邮箱登录请求参数 */
-export interface EmailLoginReq {
+export interface EmailLoginReq extends AuthReq {
   email: string
   captcha: string
 }

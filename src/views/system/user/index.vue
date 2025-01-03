@@ -5,86 +5,90 @@
         <div class="title">用户管理</div>
       </a-space>
     </a-row>
-    <a-row align="stretch" :gutter="14" class="h-full page_content">
-      <a-col :xs="0" :sm="0" :md="6" :lg="5" :xl="5" :xxl="4" class="h-full ov-hidden">
+    <SplitPanel size="20%">
+      <template #left>
         <DeptTree @node-click="handleSelectDept" />
-      </a-col>
-      <a-col :xs="24" :sm="24" :md="18" :lg="19" :xl="19" :xxl="20" class="h-full ov-hidden">
-        <GiTable
-          row-key="id"
-          :data="dataList"
-          :columns="columns"
-          :loading="loading"
-          :scroll="{ x: '100%', y: '100%', minWidth: 1500 }"
-          :pagination="pagination"
-          :disabled-tools="['size']"
-          :disabled-column-keys="['nickname']"
-          @refresh="search"
-        >
-          <template #top>
-            <GiForm v-model="queryForm" :options="options" :columns="queryFormColumns" @search="search" @reset="reset"></GiForm>
-          </template>
-          <template #toolbar-left>
-            <a-button v-permission="['system:user:add']" type="primary" @click="onAdd">
-              <template #icon><icon-plus /></template>
-              <template #default>新增</template>
-            </a-button>
-            <a-button v-permission="['system:user:import']" @click="onImport">
-              <template #icon><icon-upload /></template>
-              <template #default>导入</template>
-            </a-button>
-          </template>
-          <template #toolbar-right>
-            <a-button v-permission="['system:user:export']" @click="onExport">
-              <template #icon><icon-download /></template>
-              <template #default>导出</template>
-            </a-button>
-          </template>
-          <template #nickname="{ record }">
-            <GiCellAvatar :avatar="record.avatar" :name="record.nickname" />
-          </template>
-          <template #gender="{ record }">
-            <GiCellGender :gender="record.gender" />
-          </template>
-          <template #roleNames="{ record }">
-            <GiCellTags :data="record.roleNames" />
-          </template>
-          <template #status="{ record }">
-            <GiCellStatus :status="record.status" />
-          </template>
-          <template #isSystem="{ record }">
-            <a-tag v-if="record.isSystem" color="red" size="small">是</a-tag>
-            <a-tag v-else color="arcoblue" size="small">否</a-tag>
-          </template>
-          <template #action="{ record }">
-            <a-space>
-              <a-link v-permission="['system:user:detail']" title="详情" @click="onDetail(record)">详情</a-link>
-              <a-link v-permission="['system:user:update']" title="修改" @click="onUpdate(record)">修改</a-link>
-              <a-link
-                v-permission="['system:user:delete']"
-                status="danger"
-                :disabled="record.isSystem"
-                :title="record.isSystem ? '系统内置数据不能删除' : '删除'"
-                @click="onDelete(record)"
-              >
-                删除
-              </a-link>
-              <a-dropdown>
-                <a-button v-if="has.hasPermOr(['system:user:resetPwd', 'system:user:updateRole'])" type="text" size="mini" title="更多">
-                  <template #icon>
-                    <icon-more :size="16" />
-                  </template>
+      </template>
+      <template #main>
+        <a-row align="stretch" :gutter="14" class="h-full page_content">
+          <a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" :xxl="24" class="h-full ov-hidden">
+            <GiTable
+              row-key="id"
+              :data="dataList"
+              :columns="columns"
+              :loading="loading"
+              :scroll="{ x: '100%', y: '100%', minWidth: 1500 }"
+              :pagination="pagination"
+              :disabled-tools="['size']"
+              :disabled-column-keys="['nickname']"
+              @refresh="search"
+            >
+              <template #top>
+                <GiForm v-model="queryForm" :options="options" :columns="queryFormColumns" @search="search" @reset="reset"></GiForm>
+              </template>
+              <template #toolbar-left>
+                <a-button v-permission="['system:user:add']" type="primary" @click="onAdd">
+                  <template #icon><icon-plus /></template>
+                  <template #default>新增</template>
                 </a-button>
-                <template #content>
-                  <a-doption v-permission="['system:user:resetPwd']" title="重置密码" @click="onResetPwd(record)">重置密码</a-doption>
-                  <a-doption v-permission="['system:user:updateRole']" title="分配角色" @click="onUpdateRole(record)">分配角色</a-doption>
-                </template>
-              </a-dropdown>
-            </a-space>
-          </template>
-        </GiTable>
-      </a-col>
-    </a-row>
+                <a-button v-permission="['system:user:import']" @click="onImport">
+                  <template #icon><icon-upload /></template>
+                  <template #default>导入</template>
+                </a-button>
+              </template>
+              <template #toolbar-right>
+                <a-button v-permission="['system:user:export']" @click="onExport">
+                  <template #icon><icon-download /></template>
+                  <template #default>导出</template>
+                </a-button>
+              </template>
+              <template #nickname="{ record }">
+                <GiCellAvatar :avatar="record.avatar" :name="record.nickname" />
+              </template>
+              <template #gender="{ record }">
+                <GiCellGender :gender="record.gender" />
+              </template>
+              <template #roleNames="{ record }">
+                <GiCellTags :data="record.roleNames" />
+              </template>
+              <template #status="{ record }">
+                <GiCellStatus :status="record.status" />
+              </template>
+              <template #isSystem="{ record }">
+                <a-tag v-if="record.isSystem" color="red" size="small">是</a-tag>
+                <a-tag v-else color="arcoblue" size="small">否</a-tag>
+              </template>
+              <template #action="{ record }">
+                <a-space>
+                  <a-link v-permission="['system:user:detail']" title="详情" @click="onDetail(record)">详情</a-link>
+                  <a-link v-permission="['system:user:update']" title="修改" @click="onUpdate(record)">修改</a-link>
+                  <a-link
+                    v-permission="['system:user:delete']"
+                    status="danger"
+                    :disabled="record.isSystem"
+                    :title="record.isSystem ? '系统内置数据不能删除' : '删除'"
+                    @click="onDelete(record)"
+                  >
+                    删除
+                  </a-link>
+                  <a-dropdown>
+                    <a-button v-if="has.hasPermOr(['system:user:resetPwd', 'system:user:updateRole'])" type="text" size="mini" title="更多">
+                      <template #icon>
+                        <icon-more :size="16" />
+                      </template>
+                    </a-button>
+                    <template #content>
+                      <a-doption v-permission="['system:user:resetPwd']" title="重置密码" @click="onResetPwd(record)">重置密码</a-doption>
+                      <a-doption v-permission="['system:user:updateRole']" title="分配角色" @click="onUpdateRole(record)">分配角色</a-doption>
+                    </template>
+                  </a-dropdown>
+                </a-space>
+              </template>
+            </GiTable>
+          </a-col>
+        </a-row>
+      </template>
+    </SplitPanel>
 
     <UserAddDrawer ref="UserAddDrawerRef" @save-success="search" />
     <UserImportDrawer ref="UserImportDrawerRef" @save-success="search" />

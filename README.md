@@ -1,34 +1,38 @@
 # ContiNew Admin UI
 
-<a href="https://github.com/Charles7c/continew-admin-ui/blob/dev/LICENSE" target="_blank">
-<img src="https://img.shields.io/badge/License-Apache--2.0-blue.svg" alt="License" />
-</a>
-<a href="https://github.com/Charles7c/continew-admin-ui" target="_blank">
+<a href="https://github.com/continew-org/continew-admin-ui" title="Release" target="_blank">
 <img src="https://img.shields.io/badge/RELEASE-v3.4.1-%23ff3f59.svg" alt="Release" />
 </a>
-<a href="https://github.com/Charles7c/continew-admin" target="_blank">
-<img src="https://img.shields.io/github/stars/Charles7c/continew-admin?style=social" alt="GitHub stars" />
+<a href="https://vuejs.org/" title="Vue" target="_blank">
+<img src="https://img.shields.io/badge/Vue-3.5.4-%236CB52D.svg?logo=Vue.js" alt="Vue" />
 </a>
-<a href="https://github.com/Charles7c/continew-admin" target="_blank">
-<img src="https://img.shields.io/github/forks/Charles7c/continew-admin?style=social" alt="GitHub forks" />
+<a href="https://arco.design/vue/docs/start" title="Arco Design Vue" target="_blank">
+<img src="https://img.shields.io/badge/Arco Design Vue-2.56.0-%236CB52D.svg" alt="Arco Design Vue" />
 </a>
-<a href="https://gitee.com/continew/continew-admin" target="_blank">
-<img src="https://gitee.com/continew/continew-admin/badge/star.svg?theme=white" alt="Gitee stars" />
+<a href="https://ts.nodejs.cn/" title="TypeScript" target="_blank">
+<img src="https://img.shields.io/badge/TypeScript-5.0.4-%236CB52D.svg?logo=TypeScript&logoColor=FFF" alt="TypeScript" />
 </a>
-<a href="https://gitee.com/continew/continew-admin" target="_blank">
-<img src="https://gitee.com/continew/continew-admin/badge/fork.svg?theme=white" alt="Gitee forks" />
+<a href="https://vite.dev/" title="Vite" target="_blank">
+<img src="https://img.shields.io/badge/Vite-5.1.5-%236CB52D.svg?logo=Vite&logoColor=FFF" alt="Vite" />
 </a>
-<a href="https://github.com/Charles7c/continew-admin-ui" target="_blank">
-<img src="https://img.shields.io/badge/Vue-3.5.4-%236CB52D.svg" alt="Release" />
+<br />
+<a href="https://github.com/continew-org/continew-admin-ui/blob/dev/LICENSE" title="License" target="_blank">
+<img src="https://img.shields.io/badge/License-Apache--2.0-blue.svg" alt="License" />
 </a>
-<a href="https://github.com/Charles7c/continew-admin-ui" target="_blank">
-<img src="https://img.shields.io/badge/Arco Design Vue-2.56.0-%236CB52D.svg" alt="Release" />
+<a href="https://github.com/continew-org/continew-admin" title="GitHub Stars" target="_blank">
+<img src="https://img.shields.io/github/stars/continew-org/continew-admin?style=social" alt="GitHub Stars" />
 </a>
-<a href="https://github.com/Charles7c/continew-admin-ui" target="_blank">
-<img src="https://img.shields.io/badge/TypeScript-5.0.4-%236CB52D.svg" alt="Release" />
+<a href="https://github.com/continew-org/continew-admin" title="GitHub Forks" target="_blank">
+<img src="https://img.shields.io/github/forks/continew-org/continew-admin?style=social" alt="GitHub Forks" />
 </a>
-<a href="https://github.com/Charles7c/continew-admin-ui" target="_blank">
-<img src="https://img.shields.io/badge/Vite-5.1.5-%236CB52D.svg" alt="Release" />
+<a href="https://gitee.com/continew/continew-admin" title="Gitee Stars" target="_blank">
+<img src="https://gitee.com/continew/continew-admin/badge/star.svg?theme=dark" alt="Gitee Stars" />
+</a>
+<a href="https://gitee.com/continew/continew-admin" title="Gitee Forks" target="_blank">
+<img src="https://gitee.com/continew/continew-admin/badge/fork.svg?theme=dark" alt="Gitee Forks" />
+</a>
+<a href="https://gitcode.com/continew/continew-admin" title="GitCode Stars" target="_blank">
+<img src="https://gitcode.com/continew/continew-admin/star/badge.svg" alt="GitCode Stars" />
 </a>
 
 📚 [在线文档](https://continew.top) | 🚀 [演示地址](https://admin.continew.top)（账号/密码：admin/admin123）
@@ -108,7 +112,7 @@ public class DeptController extends BaseController<DeptService, DeptResp, DeptDe
 ##  系统功能
 
 > [!TIP]
-> 更多功能和优化正在赶来💦，最新项目计划、进展请进群或关注 [任务清单](https://continew.top/admin/intro/require.html#任务清单) 和 [更新日志](https://continew.top/admin/other/changelog.html)。
+> 更多功能和优化正在赶来💦，最新项目计划、进展请进群或关注 [需求墙](https://continew.top/require.html) 和 [更新日志](https://continew.top/admin/other/changelog.html)。
 
 - 仪表盘：提供工作台、分析页，工作台提供功能快捷导航入口、最新公告、动态；分析页提供全面数据可视化能力
 - 个人中心：支持基础信息修改、密码修改、邮箱绑定、手机号绑定（并提供行为验证码、短信限流等安全处理）、第三方账号绑定/解绑、头像裁剪上传

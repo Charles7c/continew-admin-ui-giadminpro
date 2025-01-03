@@ -5,57 +5,61 @@
         <div class="title">字典管理</div>
       </a-space>
     </a-row>
-    <a-row align="stretch" :gutter="14" class="h-full page_content">
-      <a-col :xs="0" :sm="8" :md="7" :lg="6" :xl="5" :xxl="4" flex="260px" class="h-full ov-hidden">
+    <SplitPanel>
+      <template #left>
         <DictTree @node-click="handleSelectDict" />
-      </a-col>
-      <a-col :xs="24" :sm="16" :md="17" :lg="18" :xl="19" :xxl="20" flex="1" class="h-full ov-hidden">
-        <GiTable
-          row-key="id"
-          :data="dataList"
-          :columns="columns"
-          :loading="loading"
-          :scroll="{ x: '100%', y: '100%', minWidth: 600 }"
-          :pagination="pagination"
-          :disabled-tools="['size']"
-          :disabled-column-keys="['label']"
-          @refresh="search"
-        >
-          <template #toolbar-left>
-            <a-input-search v-model="queryForm.description" placeholder="搜索标签/描述" allow-clear @search="search" />
-            <a-button @click="reset">
-              <template #icon><icon-refresh /></template>
-              <template #default>重置</template>
-            </a-button>
-          </template>
-          <template #toolbar-right>
-            <a-button v-permission="['system:dict:item:add']" type="primary" @click="onAdd">
-              <template #icon><icon-plus /></template>
-              <template #default>新增</template>
-            </a-button>
-          </template>
-          <template #label="{ record }">
-            <a-tag :color="record.color">{{ record.label }}</a-tag>
-          </template>
-          <template #status="{ record }">
-            <GiCellStatus :status="record.status" />
-          </template>
-          <template #action="{ record }">
-            <a-space>
-              <a-link v-permission="['system:dict:item:update']" title="修改" @click="onUpdate(record)">修改</a-link>
-              <a-link
-                v-permission="['system:dict:item:delete']"
-                status="danger"
-                title="删除"
-                @click="onDelete(record)"
-              >
-                删除
-              </a-link>
-            </a-space>
-          </template>
-        </GiTable>
-      </a-col>
-    </a-row>
+      </template>
+      <template #main>
+        <a-row align="stretch" :gutter="14" class="h-full page_content">
+          <a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" :xxl="24" flex="1" class="h-full ov-hidden">
+            <GiTable
+              row-key="id"
+              :data="dataList"
+              :columns="columns"
+              :loading="loading"
+              :scroll="{ x: '100%', y: '100%', minWidth: 600 }"
+              :pagination="pagination"
+              :disabled-tools="['size']"
+              :disabled-column-keys="['label']"
+              @refresh="search"
+            >
+              <template #toolbar-left>
+                <a-input-search v-model="queryForm.description" placeholder="搜索标签/描述" allow-clear @search="search" />
+                <a-button @click="reset">
+                  <template #icon><icon-refresh /></template>
+                  <template #default>重置</template>
+                </a-button>
+              </template>
+              <template #toolbar-right>
+                <a-button v-permission="['system:dict:item:add']" type="primary" @click="onAdd">
+                  <template #icon><icon-plus /></template>
+                  <template #default>新增</template>
+                </a-button>
+              </template>
+              <template #label="{ record }">
+                <a-tag :color="record.color">{{ record.label }}</a-tag>
+              </template>
+              <template #status="{ record }">
+                <GiCellStatus :status="record.status" />
+              </template>
+              <template #action="{ record }">
+                <a-space>
+                  <a-link v-permission="['system:dict:item:update']" title="修改" @click="onUpdate(record)">修改</a-link>
+                  <a-link
+                    v-permission="['system:dict:item:delete']"
+                    status="danger"
+                    title="删除"
+                    @click="onDelete(record)"
+                  >
+                    删除
+                  </a-link>
+                </a-space>
+              </template>
+            </GiTable>
+          </a-col>
+        </a-row>
+      </template>
+    </SplitPanel>
 
     <DictItemAddModal ref="DictItemAddModalRef" @save-success="search" />
   </div>

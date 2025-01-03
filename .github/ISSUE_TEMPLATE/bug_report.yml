@@ -7,6 +7,26 @@ body:
     attributes:
       value: |
         感谢您使用 ContiNew Admin！请您花些时间填写这份 Bug 报告。
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: 请您确认
+      description: 在提交 Issue 之前，请确保执行过以下操作。
+      options:
+        - label: 尝试最新 dev 分支代码，仍有相同问题
+          required: true
+        - label: 阅读[使用指南](https://continew.top/admin/intro/what-is.html)
+          required: true
+        - label: 查找[常见问题](https://continew.top/faq.html)
+          required: true
+        - label: 根据报错信息（自行翻译英文）百度或 Google 一下
+          required: true
+        - label: 搜索是否有其他人提交过类似的 Issue，如果对应 Issue 尚未解决，您可以先订阅关注该 Issue（为了方便后来者查找问题解决方法，请尽量避免创建重复的 Issue）
+          required: true
+        - label: 阅读源码并在 IDE 中进行断点调试
+          required: false
+    validations:
+      required: true
   - type: textarea
     id: bug-description
     attributes:
@@ -47,15 +67,3 @@ body:
     attributes:
       label: 额外补充
       description: 添加您的完整报错信息或屏幕截图，以及一切能帮助定位问题的信息。
-  - type: checkboxes
-    id: checkboxes
-    attributes:
-      label: 确认
-      description: 在提交 issue 之前，请确保执行过以下操作。
-      options:
-        - label: 阅读[文档](https://continew.top/admin/other/faq.html)
-          required: true
-        - label: 根据报错信息百度或 Google 一下
-          required: true
-        - label: 搜索是否有其他人提交过类似的 issue，如果对应 issue 尚未解决，您可以先订阅关注该 issue（为了方便后来者查找问题解决方法，请尽量避免创建重复的 issue）
-          required: true
