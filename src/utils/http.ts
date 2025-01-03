@@ -1,6 +1,6 @@
 import axios from 'axios'
 import qs from 'query-string'
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { useUserStore } from '@/stores'
 import { getToken } from '@/utils/auth'
 import modalErrorWrapper from '@/utils/modal-error-wrapper'
@@ -34,6 +34,16 @@ const http: AxiosInstance = axios.create({
   timeout: 30 * 1000,
 })
 
+const handleError = (msg: string) => {
+  if (msg.length >= 15) {
+    return notificationErrorWrapper(msg || '服务器端错误')
+  }
+  return messageErrorWrapper({
+    content: msg || '服务器端错误',
+    duration: 5 * 1000,
+  })
+}
+
 // 请求拦截器
 http.interceptors.request.use(
   (config: AxiosRequestConfig) => {
@@ -46,9 +56,7 @@ http.interceptors.request.use(
     }
     return config
   },
-  (error) => {
-    return Promise.reject(error)
-  },
+  (error) => Promise.reject(error),
 )
 
 // 响应拦截器
@@ -56,11 +64,8 @@ http.interceptors.response.use(
   (response: AxiosResponse) => {
     const { data } = response
     const { success, code, msg } = data
-    if (response.request.responseType === 'blob') {
-      return response
-    }
-    // 成功
-    if (success) {
+
+    if (response.request.responseType === 'blob' || success) {
       return response
     }
 
@@ -79,104 +84,68 @@ http.interceptors.response.use(
         },
       })
     } else {
-      // 如果错误信息长度过长，使用 Notification 进行提示
-      if (msg.length <= 15) {
-        messageErrorWrapper({
-          content: msg || '服务器端错误',
-          duration: 5 * 1000,
-        })
-      } else {
-        notificationErrorWrapper(msg || '服务器端错误')
-      }
+      handleError(msg)
     }
     return Promise.reject(new Error(msg || '服务器端错误'))
   },
-  (error) => {
-    const response = Object.assign({}, error.response)
-    response
-    && messageErrorWrapper({
-      content: StatusCodeMessage[response.status] || '服务器暂时未响应，请刷新页面并重试。若无法解决，请联系管理员',
-      duration: 5 * 1000,
-    })
+  (error: AxiosError) => {
+    if (!error.response) {
+      handleError('网络连接失败，请检查您的网络')
+      return Promise.reject(error)
+    }
+    const status = error.response?.status
+    const errorMsg = StatusCodeMessage[status] || '服务器暂时未响应，请刷新页面并重试。若无法解决，请联系管理员'
+    handleError(errorMsg)
     return Promise.reject(error)
   },
 )
 
-const request = <T = unknown>(config: AxiosRequestConfig): Promise<ApiRes<T>> => {
-  return new Promise((resolve, reject) => {
-    http
-      .request<T>(config)
-      .then((res: AxiosResponse) => resolve(res.data))
-      .catch((err: { msg: string }) => reject(err))
-  })
+const request = async <T = unknown>(config: AxiosRequestConfig): Promise<ApiRes<T>> => {
+  return http.request<T>(config)
+    .then((res: AxiosResponse) => res.data)
+    .catch((err: { msg: string }) => Promise.reject(err))
 }
 
-const requestNative = <T = unknown>(config: AxiosRequestConfig): Promise<AxiosResponse> => {
-  return new Promise((resolve, reject) => {
-    http
-      .request<T>(config)
-      .then((res: AxiosResponse) => resolve(res))
-      .catch((err: { msg: string }) => reject(err))
-  })
+const requestNative = async <T = unknown>(config: AxiosRequestConfig): Promise<AxiosResponse> => {
+  return http.request<T>(config)
+    .then((res: AxiosResponse) => res)
+    .catch((err: { msg: string }) => Promise.reject(err))
 }
 
-const get = <T = any>(url: string, params?: object, config?: AxiosRequestConfig): Promise<ApiRes<T>> => {
-  return request({
-    method: 'get',
-    url,
-    params,
-    paramsSerializer: (obj) => {
-      return qs.stringify(obj)
-    },
-    ...config,
-  })
+const createRequest = (method: string) => {
+  return <T = any>(url: string, params?: object, config?: AxiosRequestConfig): Promise<ApiRes<T>> => {
+    return request({
+      method,
+      url,
+      [method === 'get' ? 'params' : 'data']: params,
+      ...(method === 'get'
+        ? {
+            paramsSerializer: (obj) => qs.stringify(obj),
+          }
+        : {}),
+      ...config,
+    })
+  }
 }
 
-const post = <T = any>(url: string, params?: object, config?: AxiosRequestConfig): Promise<ApiRes<T>> => {
-  return request({
-    method: 'post',
-    url,
-    data: params,
-    ...config,
-  })
-}
-
-const put = <T = any>(url: string, params?: object, config?: AxiosRequestConfig): Promise<ApiRes<T>> => {
-  return request({
-    method: 'put',
-    url,
-    data: params,
-    ...config,
-  })
-}
-
-const patch = <T = any>(url: string, params?: object, config?: AxiosRequestConfig): Promise<ApiRes<T>> => {
-  return request({
-    method: 'patch',
-    url,
-    data: params,
-    ...config,
-  })
-}
-
-const del = <T = any>(url: string, params?: object, config?: AxiosRequestConfig): Promise<ApiRes<T>> => {
-  return request({
-    method: 'delete',
-    url,
-    data: params,
-    ...config,
-  })
-}
 const download = (url: string, params?: object, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
   return requestNative({
     method: 'get',
     url,
     responseType: 'blob',
     params,
-    paramsSerializer: (obj) => {
-      return qs.stringify(obj)
-    },
+    paramsSerializer: (obj) => qs.stringify(obj),
     ...config,
   })
 }
-export default { get, post, put, patch, del, request, requestNative, download }
+
+export default {
+  get: createRequest('get'),
+  post: createRequest('post'),
+  put: createRequest('put'),
+  patch: createRequest('patch'),
+  del: createRequest('delete'),
+  request,
+  requestNative,
+  download,
+}
