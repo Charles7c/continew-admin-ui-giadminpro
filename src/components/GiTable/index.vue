@@ -235,7 +235,7 @@ defineExpose({ tableRef })
   height: 100%;
   background: var(--color-bg-1);
   position: relative;
-  box-sizing:border-box;
+  box-sizing: border-box;
   &--fullscreen {
     padding: $padding;
     position: fixed;
@@ -254,6 +254,10 @@ defineExpose({ tableRef })
     // 控制table高度占满
     :deep(.arco-table-border:not(.arco-table-border-cell) .arco-table-container) {
       height: 100%;
+    }
+
+    :deep(.arco-table-container) {
+      flex: 1;
     }
 
     :deep(.arco-table-body) {

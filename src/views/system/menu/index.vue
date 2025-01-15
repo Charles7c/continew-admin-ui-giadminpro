@@ -1,8 +1,8 @@
 <template>
-  <div class="table-page">
+  <div class="gi_table_page">
     <GiTable
       ref="tableRef"
-      title="菜单管理"
+      title=""
       row-key="id"
       :data="dataList"
       :columns="columns"

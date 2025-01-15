@@ -1,8 +1,15 @@
 <template>
-  <div class="table-page">
+  <div class="gi_table_page">
+    <div class="header-actions">
+      <a-radio-group v-model="viewType" type="button" size="small" style="margin-bottom: 16px;">
+        <a-radio value="table">表格视图</a-radio>
+        <a-radio value="tree">组织架构图</a-radio>
+      </a-radio-group>
+    </div>
     <GiTable
+      v-show="viewType === 'table'"
       ref="tableRef"
-      title="部门管理"
+      title=""
       row-key="id"
       :data="dataList"
       :columns="columns"
@@ -58,12 +65,36 @@
         </a-space>
       </template>
     </GiTable>
-
+    <!-- 组织架构图视图 -->
+    <div v-show="viewType === 'tree'">
+      <a-card>
+        <a-dropdown trigger="contextMenu">
+          <Vue3TreeOrg
+            v-if="dataList.length"
+            :data="dataList[0]"
+            :collapsable="true"
+            :horizontal="false"
+            :define-menus="menus"
+            :expand-all="true"
+            :default-expand-level="999"
+            :props="{ id: 'id', parentId: 'parentId', label: 'name', children: 'children' }"
+            center
+            :node-add="handleAdd"
+            :node-delete="onDelete"
+            :node-edit="onUpdate"
+            @on-expand-all="bool => nodeExpandAll = bool"
+          >
+          </Vue3TreeOrg>
+        </a-dropdown>
+      </a-card>
+    </div>
     <DeptAddModal ref="DeptAddModalRef" :depts="dataList" @save-success="search" />
   </div>
 </template>
 
 <script setup lang="ts">
+import 'vue3-tree-org/lib/vue3-tree-org.css'
+import { Vue3TreeOrg } from 'vue3-tree-org'
 import DeptAddModal from './DeptAddModal.vue'
 import { type DeptQuery, type DeptResp, deleteDept, exportDept, listDept } from '@/apis/system/dept'
 import type { TableInstanceColumns } from '@/components/GiTable/type'
@@ -89,7 +120,16 @@ const {
     })
   },
 })
-
+// 查看视图类型
+const viewType = ref('table')
+// 组织架构图右键菜单
+const menus = [
+  { name: '添加部门', command: 'add' },
+  { name: '编辑部门', command: 'edit' },
+  { name: '删除部门', command: 'delete' },
+]
+// 所有节点展开状态
+const nodeExpandAll = ref<boolean>(true)
 // 过滤树
 const searchData = (name: string) => {
   const loop = (data: DeptResp[]) => {
@@ -162,11 +202,65 @@ const DeptAddModalRef = ref<InstanceType<typeof DeptAddModal>>()
 const onAdd = (parentId?: string) => {
   DeptAddModalRef.value?.onAdd(parentId)
 }
-
+const handleAdd = (record: DeptResp) => {
+  onAdd(record.id)
+}
 // 修改
 const onUpdate = (record: DeptResp) => {
   DeptAddModalRef.value?.onUpdate(record.id)
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+:deep(.zm-draggable) {
+  margin-top: 4px;
+}
+
+:deep(.zm-tree-org .zoom-container) {
+  background-color: var(--color-bg-1);
+  color: var(--color-text-1);
+}
+
+:deep(.tree-org-node__content) {
+  background-color: var(--color-bg-2);
+  color: var(--color-text-1);
+  cursor: pointer;
+  position: relative;
+}
+
+.zm-tree-org {
+  background-color: var(--color-bg-1);
+  height: calc(100vh - 265px);
+}
+
+:global(.zm-tree-contextmenu) {
+  color: var(--color-text-1) !important;
+  position: fixed !important;
+  background: var(--color-bg-2) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 4px !important;
+  padding: 4px 0 !important;
+  min-width: 120px !important;
+  z-index: 999 !important;
+
+  ul {
+    background: var(--color-bg-1) !important;
+    list-style-type: none !important;
+    padding: 10px !important;
+    margin: 0 !important;
+  }
+
+  .zm-tree-menu-item {
+    background-color: var(--color-bg-1) !important;
+    padding: 5px 15px !important;
+    margin-top: 10px !important;
+    cursor: pointer !important;
+    transition: background-color 0.1s ease !important;
+    list-style: none !important;
+  }
+}
+:deep(.tree-org-node__expand){
+  background-color: var(--color-bg-1) !important;
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
-  <div class="table-page">
+  <div class="gi_table_page">
     <GiTable
-      title="任务日志"
+      title=""
       row-key="id"
       :data="dataList"
       :columns="columns"

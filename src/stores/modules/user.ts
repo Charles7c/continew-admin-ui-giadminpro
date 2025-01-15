@@ -3,6 +3,7 @@ import { computed, reactive, ref } from 'vue'
 import { resetRouter } from '@/router'
 import {
   type AccountLoginReq,
+  AuthTypeEnum,
   type EmailLoginReq,
   type PhoneLoginReq,
   type UserInfo,
@@ -50,28 +51,28 @@ const storeSetup = () => {
 
   // 登录
   const accountLogin = async (req: AccountLoginReq) => {
-    const res = await accountLoginApi(req)
+    const res = await accountLoginApi({ ...req, clientId: import.meta.env.VITE_CLIENT_ID, authType: AuthTypeEnum.ACCOUNT })
     setToken(res.data.token)
     token.value = res.data.token
   }
 
   // 邮箱登录
   const emailLogin = async (req: EmailLoginReq) => {
-    const res = await emailLoginApi(req)
+    const res = await emailLoginApi({ ...req, clientId: import.meta.env.VITE_CLIENT_ID, authType: AuthTypeEnum.EMAIL })
     setToken(res.data.token)
     token.value = res.data.token
   }
 
   // 手机号登录
   const phoneLogin = async (req: PhoneLoginReq) => {
-    const res = await phoneLoginApi(req)
+    const res = await phoneLoginApi({ ...req, clientId: import.meta.env.VITE_CLIENT_ID, authType: AuthTypeEnum.PHONE })
     setToken(res.data.token)
     token.value = res.data.token
   }
 
   // 三方账号登录
   const socialLogin = async (source: string, req: any) => {
-    const res = await socialLoginApi(source, req)
+    const res = await socialLoginApi({ ...req, source, clientId: import.meta.env.VITE_CLIENT_ID, authType: AuthTypeEnum.SOCIAL })
     setToken(res.data.token)
     token.value = res.data.token
   }

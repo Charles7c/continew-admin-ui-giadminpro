@@ -3,6 +3,7 @@
     <template #title>
       {{ previewTableNames.length === 1 ? `生成 ${previewTableNames[0]} 表预览` : '批量生成预览' }}
       <a-link v-permission="['code:generator:generate']" style="margin-left: 10px" icon @click="onDownload">下载源码</a-link>
+      <a-link v-permission="['code:generator:generate']" style="margin-left: 10px" icon @click="onGenerator">生成源码</a-link>
     </template>
     <div class="preview-content">
       <a-layout :has-sider="true">
@@ -71,7 +72,7 @@ import { Message, type TreeNodeData } from '@arco-design/web-vue'
 import { useClipboard } from '@vueuse/core'
 import { type GeneratePreviewResp, genPreview } from '@/apis/code/generator'
 
-const emit = defineEmits<{ (e: 'generate', previewTableNames: string[]): void }>()
+const emit = defineEmits([ 'download','generate'])
 const { copy, copied } = useClipboard()
 
 const genPreviewList = ref<GeneratePreviewResp[]>([])
@@ -128,6 +129,11 @@ const assembleTree = (genPreview: GeneratePreviewResp) => {
 
 // 下载
 const onDownload = () => {
+  emit('download', [previewTableNames.value])
+}
+
+// 下载
+const onGenerator = () => {
   emit('generate', [previewTableNames.value])
 }
 // 校验文件类型

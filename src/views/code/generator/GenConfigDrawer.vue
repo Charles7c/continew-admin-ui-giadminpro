@@ -154,9 +154,6 @@ const formColumns: Columns = reactive([
     label: '作者名称',
     field: 'author',
     type: 'input',
-    props: {
-      placeholder: '请输入作者名称',
-    },
     rules: [{ required: true, message: '请输入作者名称' }],
   },
   {

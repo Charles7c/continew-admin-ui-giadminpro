@@ -1,5 +1,5 @@
 <template>
-  <div class="table-page">
+  <div class="gi_table_page">
     <GiTable
       row-key="id"
       title="消息中心"

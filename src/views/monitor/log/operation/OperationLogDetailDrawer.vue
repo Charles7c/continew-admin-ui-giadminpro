@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { type LogDetailResp, getLog as getData } from '@/apis/monitor'
+import { type LogDetailResp, getLog as getDetail } from '@/apis/monitor'
 
 const dataId = ref('')
 const dataDetail = ref<LogDetailResp>()
@@ -76,7 +76,7 @@ const visible = ref(false)
 
 // 查询详情
 const getDataDetail = async () => {
-  const { data } = await getData(dataId.value)
+  const { data } = await getDetail(dataId.value)
   dataDetail.value = data
 }
 

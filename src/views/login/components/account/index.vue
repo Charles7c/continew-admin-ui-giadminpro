@@ -132,6 +132,7 @@ const handleLogin = async () => {
     loginConfig.value.username = rememberMe ? form.username : ''
     Message.success('欢迎使用')
   } catch (error) {
+    console.error(error)
     getCaptcha()
     form.captcha = ''
   } finally {

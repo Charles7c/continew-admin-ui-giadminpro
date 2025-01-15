@@ -1,8 +1,8 @@
 <template>
-  <div class="table-page">
+  <div class="gi_table_page">
     <GiTable
       row-key="id"
-      title="通知公告"
+      title=""
       :data="dataList"
       :columns="columns"
       :loading="loading"

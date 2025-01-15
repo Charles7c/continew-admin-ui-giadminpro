@@ -3,12 +3,14 @@
     <a-grid class="w-full" :col-gap="8" v-bind="options.grid" :collapsed="collapsed">
       <template v-for="(item, index) in columns" :key="item.field">
         <a-grid-item
-          v-if="!isHide(item.hide)" v-show="colVShow(index)" v-bind="item.gridItemProps || props.options.gridItem"
+          v-if="item.show !== undefined ? isShow(item) : !isHide(item)"
+          v-show="colVShow(index)"
+          v-bind="item.gridItemProps || props.options.gridItem"
           :span="item.span || options.gridItem?.span"
         >
           <a-form-item
             v-bind="item.formItemProps" :field="item.field" :rules="item.rules"
-            :disabled="isDisabled(item.disabled)"
+            :disabled="isDisabled(item)"
           >
             <template #label>
               <template v-if="typeof item.label === 'string'">{{ item.label }}</template>
@@ -16,7 +18,7 @@
             </template>
             <slot
               v-if="!['group-title'].includes(item.type || '')" :name="item.field"
-              v-bind="{ disabled: isDisabled(item.disabled) }"
+              v-bind="{ disabled: isDisabled(item) }"
             >
               <template v-if="item.type === 'range-picker'">
                 <DateRangePicker
@@ -72,7 +74,7 @@
 
 <script setup lang="ts">
 import { cloneDeep } from 'lodash-es'
-import type { ColumnsItem, ColumnsItemDisabled, ColumnsItemHide, Options } from './type'
+import type { ColumnsItem, Options } from './type'
 
 interface Props {
   modelValue: any
@@ -150,19 +152,29 @@ const valueChange = (value: any, field: string) => {
   emit('update:modelValue', Object.assign(props.modelValue, { [field]: value }))
 }
 
-const isHide = (hide?: ColumnsItemHide<boolean | object>) => {
-  if (hide === undefined) return false
-  if (typeof hide === 'boolean') return hide
-  if (typeof hide === 'function') {
-    return hide(props.modelValue)
+/** 显示表单项 */
+const isShow = (item: ColumnsItem) => {
+  if (typeof item.show === 'boolean') return item.show
+  if (typeof item.show === 'function') {
+    return item.show(props.modelValue)
   }
 }
 
-const isDisabled = (disabled?: ColumnsItemDisabled<boolean | object>) => {
-  if (disabled === undefined) return false
-  if (typeof disabled === 'boolean') return disabled
-  if (typeof disabled === 'function') {
-    return disabled(props.modelValue)
+/** 隐藏表单项 */
+const isHide = (item: ColumnsItem) => {
+  if (item.hide === undefined) return false
+  if (typeof item.hide === 'boolean') return item.hide
+  if (typeof item.hide === 'function') {
+    return item.hide(props.modelValue)
+  }
+}
+
+/** 禁用表单项 */
+const isDisabled = (item: ColumnsItem) => {
+  if (item.disabled === undefined) return false
+  if (typeof item.disabled === 'boolean') return item.disabled
+  if (typeof item.disabled === 'function') {
+    return item.disabled(props.modelValue)
   }
 }
 

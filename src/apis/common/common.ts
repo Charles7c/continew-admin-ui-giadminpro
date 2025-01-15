@@ -5,7 +5,7 @@ import type { LabelValueState } from '@/types/global'
 const BASE_URL = '/common'
 
 /** @desc 查询部门树 */
-export function listDeptTree(query: { description: string }) {
+export function listDeptTree(query: { description: string | unknown }) {
   return http.get<TreeNodeData[]>(`${BASE_URL}/tree/dept`, query)
 }
 

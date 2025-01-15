@@ -1,5 +1,5 @@
 <template>
-  <div class="table-page">
+  <div class="gi_table_page">
     <GiTable
       title="租户数据连接管理"
       row-key="id"

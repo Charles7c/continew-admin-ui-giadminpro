@@ -1,7 +1,7 @@
 <template>
-  <div class="table-page">
+  <div class="gi_table_page">
     <GiTable
-      title="在线用户"
+      title=""
       row-key="id"
       :data="dataList"
       :columns="columns"

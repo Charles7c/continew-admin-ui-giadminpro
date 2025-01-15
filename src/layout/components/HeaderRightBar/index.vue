@@ -30,7 +30,7 @@
       </a-popover>
 
       <!-- 全屏切换组件 -->
-      <a-tooltip v-if="!isMobile()" content="全屏切换" position="bottom">
+      <a-tooltip v-if="!['xs', 'sm'].includes(breakpoint)" content="全屏切换" position="bottom">
         <a-button size="mini" class="gi_hover_btn" @click="toggle">
           <template #icon>
             <icon-fullscreen v-if="!isFullscreen" :size="18" />
@@ -76,10 +76,12 @@ import Message from './Message.vue'
 import SettingDrawer from './SettingDrawer.vue'
 import { getUnreadMessageCount } from '@/apis'
 import { useUserStore } from '@/stores'
-import { isMobile } from '@/utils'
 import { getToken } from '@/utils/auth'
+import { useBreakpoint } from '@/hooks'
 
 defineOptions({ name: 'HeaderRight' })
+
+const { breakpoint } = useBreakpoint()
 let socket: WebSocket
 onBeforeUnmount(() => {
   if (socket) {

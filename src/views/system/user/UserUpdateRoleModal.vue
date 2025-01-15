@@ -48,7 +48,6 @@ const columns: Columns = reactive([
       multiple: true,
       allowClear: true,
       allowSearch: { retainInputValue: true },
-      placeholder: '请选择角色',
     },
     rules: [{ required: true, message: '请选择角色' }],
   },

@@ -1,11 +1,12 @@
 <template>
-  <div class="table-page">
+  <div class="gi_table_page">
     <GiTable
-      title="角色管理"
+      title=""
       row-key="id"
       :data="dataList"
       :columns="columns"
       :loading="loading"
+      :bordered="false"
       :scroll="{ x: '100%', y: '100%', minWidth: 1000 }"
       :pagination="pagination"
       :disabled-tools="['size']"

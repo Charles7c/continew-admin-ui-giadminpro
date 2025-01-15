@@ -53,7 +53,6 @@ const columns: Columns = reactive([
     field: 'username',
     type: 'input',
     props: {
-      placeholder: '请输入用户名',
       maxLength: 64,
       showWordLimit: true,
     },
@@ -64,7 +63,6 @@ const columns: Columns = reactive([
     field: 'nickname',
     type: 'input',
     props: {
-      placeholder: '请输入昵称',
       maxLength: 30,
       showWordLimit: true,
     },
@@ -75,7 +73,6 @@ const columns: Columns = reactive([
     field: 'password',
     type: 'input-password',
     props: {
-      placeholder: '请输入密码',
       maxLength: 32,
       showWordLimit: true,
     },
@@ -89,7 +86,6 @@ const columns: Columns = reactive([
     field: 'phone',
     type: 'input',
     props: {
-      placeholder: '请输入手机号码',
       maxLength: 11,
     },
   },
@@ -98,7 +94,6 @@ const columns: Columns = reactive([
     field: 'email',
     type: 'input',
     props: {
-      placeholder: '请输入邮箱',
       maxLength: 255,
     },
   },
@@ -114,7 +109,6 @@ const columns: Columns = reactive([
     type: 'tree-select',
     data: deptList,
     props: {
-      placeholder: '请选择所属部门',
       allowClear: true,
       allowSearch: true,
       fallbackOption: false,
@@ -133,7 +127,6 @@ const columns: Columns = reactive([
     type: 'select',
     options: roleList,
     props: {
-      placeholder: '请选择角色',
       multiple: true,
       allowClear: true,
       allowSearch: true,
@@ -145,7 +138,6 @@ const columns: Columns = reactive([
     field: 'description',
     type: 'textarea',
     props: {
-      placeholder: '请输入描述',
       maxLength: 200,
       showWordLimit: true,
       autoSize: { minRows: 3, maxRows: 5 },

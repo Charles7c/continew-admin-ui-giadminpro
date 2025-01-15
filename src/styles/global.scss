@@ -1,5 +1,28 @@
 /* 全局样式 */
 @import './var.scss';
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+// 一般结合<a-row class="flex-column"></a-row>使用
+.flex-column {
+  flex-direction: column;
+  overflow: hidden;
+}
+
 // 通用外边距
 .gi_margin {
   margin: $margin;
@@ -34,13 +57,6 @@
   transform: rotate(-180deg);
 }
 
-// 通用盒子
-.gi_box {
-  background: var(--color-bg-1);
-  border-radius: $radius-box;
-  overflow: hidden;
-}
-
 .gi_select_input {
   width: 120px !important;
 }
@@ -56,18 +72,22 @@
 }
 
 .gi_line_2 {
+  line-clamp: 2;
   -webkit-line-clamp: 2;
 }
 
 .gi_line_3 {
+  line-clamp: 2;
   -webkit-line-clamp: 3;
 }
 
 .gi_line_4 {
+  line-clamp: 2;
   -webkit-line-clamp: 4;
 }
 
 .gi_line_5 {
+  line-clamp: 2;
   -webkit-line-clamp: 5;
 }
 
@@ -142,6 +162,7 @@
   border-radius: 100px;
 }
 
+// hover按钮
 .gi_hover_btn {
   border: 0 !important;
   background-color: transparent;
@@ -167,6 +188,14 @@
   }
 }
 
+// 通用盒子
+.gi_box {
+  background: var(--color-bg-1);
+  border-radius: $radius-box;
+  overflow: hidden;
+}
+
+// 卡片组件，使body的高度自动撑满
 .gi_card {
   box-sizing: border-box;
   overflow: hidden;
@@ -182,6 +211,21 @@
   }
 }
 
+// 卡片标题，标题左侧的伪类样式
+.gi_card_title {
+  .arco-card-header-title::before {
+    content: '';
+    width: 4px;
+    height: 50%;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgb(var(--warning-5));
+    border-radius: 0 4px 4px 0;
+  }
+}
+
 // 普通页面（使用场景，页面内容超出高度会自动滚动）
 .gi_page {
   flex: 1;
@@ -192,13 +236,12 @@
 }
 
 // 表格页面
-.table-page {
-  height: 100%;
+.gi_table_page {
+  flex: 1;
   overflow: hidden;
   margin: $margin;
   background: var(--color-bg-1);
   padding: $padding;
-  padding-bottom: 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -212,22 +255,64 @@
       line-height: 1.5;
     }
   }
-  &:after {
-    content: '';
-    height: 20px;
-    font-size: 12px;
-    color: var(--color-text-3);
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+}
+
+// 表格类名 高度自适应
+.gi_table {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  >.arco-spin {
+    max-height: 100%;
+    height: auto;
+    overflow: hidden;
   }
 }
 
-.gi_table_box {
-  max-height: 100%;
+// 表格类名，高度自适应，分页始终固定在最底部
+.gi_full_table {
+  flex: 1;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  .arco-table-container {
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .arco-table-scroll-y {
+    border-right: 1px solid var(--color-border-table);
+  }
+
+  .arco-table-tr .arco-table-td:last-child,
+  .arco-table-tr .arco-table-th:last-child {
+    border-right: none;
+  }
+
+  .arco-table-content {
+    .arco-scrollbar:last-child {
+      .arco-table-element {
+        border-bottom: 1px solid var(--color-border-table);
+      }
+    }
+  }
 }
+
+// 编辑表格，表头的必填红色星号
+.gi_column_require {
+  .arco-table-th-title {
+    &::before {
+      content: '*';
+      color: red;
+      padding-right: 2px;
+    }
+  }
+}
+
 .detail{
   height: 100%;
   display: flex;
@@ -245,19 +330,6 @@
     padding: $padding;
     margin: $margin;
     background: var(--color-bg-1);
-  }
-}
-.gi_card_title {
-  .arco-card-header-title::before {
-    content: '';
-    width: 4px;
-    height: 50%;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgb(var(--primary-5));
-    border-radius: 0 4px 4px 0;
   }
 }
 

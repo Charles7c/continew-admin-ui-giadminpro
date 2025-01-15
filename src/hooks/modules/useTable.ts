@@ -1,7 +1,7 @@
 import type { TableData, TableInstance } from '@arco-design/web-vue'
 import { Message, Modal } from '@arco-design/web-vue'
 import type { Options as paginationOptions } from './usePagination'
-import { usePagination } from '@/hooks'
+import { useBreakpoint, usePagination } from '@/hooks'
 
 interface Options<T, U> {
   formatResult?: (data: T[]) => U[]
@@ -94,5 +94,32 @@ export function useTable<T extends U, U = T>(api: Api<T>, options?: Options<T, U
     })
   }
 
-  return { loading, tableData, getTableData, search, pagination, selectedKeys, select, selectAll, handleDelete, refresh }
+  const { breakpoint } = useBreakpoint()
+  // 表格操作列在小屏下不固定在右侧
+  const fixed = computed(() => !['xs', 'sm'].includes(breakpoint.value) ? 'right' : undefined)
+
+  return {
+    /** 表格加载状态 */
+    loading,
+    /** 表格数据 */
+    tableData,
+    /** 获取表格数据 */
+    getTableData,
+    /** 搜索，页码会重置为1 */
+    search,
+    /** 分页的传参 */
+    pagination,
+    /** 选择的行keys */
+    selectedKeys,
+    /** 选择行 */
+    select,
+    /** 全选行 */
+    selectAll,
+    /** 处理删除、批量删除 */
+    handleDelete,
+    /** 刷新表格数据，页码会缓存 */
+    refresh,
+    /** 操作列在小屏场景下不固定在右侧 */
+    fixed,
+  }
 }

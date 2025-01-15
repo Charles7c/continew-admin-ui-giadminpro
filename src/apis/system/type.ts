@@ -1,4 +1,4 @@
-/** 系统用户类型 */
+/** 用户类型 */
 export interface UserResp {
   id: string
   username: string
@@ -20,11 +20,9 @@ export interface UserResp {
   roleNames: Array<string>
   disabled: boolean
 }
-
 export type UserDetailResp = UserResp & {
   pwdResetTime?: string
 }
-
 export interface UserImportResp {
   importKey: string
   totalRows: number
@@ -33,7 +31,6 @@ export interface UserImportResp {
   duplicateEmailRows: number
   duplicatePhoneRows: number
 }
-
 export interface UserQuery {
   description?: string
   status?: number
@@ -42,10 +39,9 @@ export interface UserQuery {
   sort: Array<string>
   userIds?: Array<string>
 }
-
 export interface UserPageQuery extends UserQuery, PageQuery {}
 
-/** 系统角色类型 */
+/** 角色类型 */
 export interface RoleResp {
   id: string
   name: string
@@ -60,22 +56,19 @@ export interface RoleResp {
   updateTime: string
   disabled: boolean
 }
-
 export type RoleDetailResp = RoleResp & {
   menuIds: Array<number>
   deptIds: Array<number>
   menuCheckStrictly: boolean
   deptCheckStrictly: boolean
 }
-
 export interface RoleQuery {
   description?: string
   sort: Array<string>
 }
-
 export interface RolePageQuery extends RoleQuery, PageQuery {}
 
-/** 系统菜单类型 */
+/** 菜单类型 */
 export interface MenuResp {
   id: string
   title: string
@@ -98,13 +91,12 @@ export interface MenuResp {
   updateTime: string
   children: MenuResp[]
 }
-
 export interface MenuQuery {
   title?: string
   status?: number
 }
 
-/** 系统部门类型 */
+/** 部门类型 */
 export interface DeptResp {
   id: string
   name: string
@@ -119,13 +111,12 @@ export interface DeptResp {
   parentId: string
   children: DeptResp[]
 }
-
 export interface DeptQuery {
   description?: string
   status?: number
 }
 
-/** 系统字典类型 */
+/** 字典类型 */
 export interface DictResp {
   id: string
   name: string
@@ -137,12 +128,10 @@ export interface DictResp {
   updateUserString: string
   updateTime: string
 }
-
 export interface DictQuery {
   description?: string
   sort: Array<string>
 }
-
 export interface DictItemResp {
   id: string
   label: string
@@ -157,18 +146,16 @@ export interface DictItemResp {
   updateUserString: string
   updateTime: string
 }
-
 export interface DictItemQuery {
   description?: string
   status?: number
   sort: Array<string>
   dictId: string
 }
-
 export interface DictItemPageQuery extends DictItemQuery, PageQuery {
 }
 
-/** 系统公告类型 */
+/** 公告类型 */
 export interface NoticeResp {
   id?: string
   title?: string
@@ -184,17 +171,15 @@ export interface NoticeResp {
   updateUserString?: string
   updateTime?: string
 }
-
 export interface NoticeQuery {
   title?: string
   type?: string
   sort: Array<string>
 }
-
 export interface NoticePageQuery extends NoticeQuery, PageQuery {
 }
 
-/** 系统文件类型 */
+/** 文件类型 */
 export interface FileItem {
   id: string
   name: string
@@ -211,7 +196,6 @@ export interface FileItem {
   updateUserString: string
   updateTime: string
 }
-
 /** 文件资源统计信息 */
 export interface FileStatisticsResp {
   type: string
@@ -220,17 +204,15 @@ export interface FileStatisticsResp {
   unit: string
   data: Array<FileStatisticsResp>
 }
-
 export interface FileQuery {
   name?: string
   type?: string
   sort: Array<string>
 }
-
 export interface FilePageQuery extends FileQuery, PageQuery {
 }
 
-/** 系统存储类型 */
+/** 存储类型 */
 export interface StorageResp {
   id: string
   name: string
@@ -250,15 +232,58 @@ export interface StorageResp {
   updateUserString: string
   updateTime: string
 }
-
 export interface StorageQuery {
   description?: string
   status?: number
   sort: Array<string>
 }
-
 export interface StoragePageQuery extends StorageQuery, PageQuery {
 }
+
+/** 客户端类型 */
+export interface ClientResp {
+  id: string
+  clientId: string
+  clientKey: string
+  clientSecret: string
+  authType: string
+  clientType: string
+  activeTimeout: string
+  timeout: string
+  status: string
+  createUser: string
+  createTime: string
+  updateUser: string
+  updateTime: string
+  createUserString: string
+  updateUserString: string
+}
+export interface ClientDetailResp {
+  id: string
+  clientId: string
+  clientKey: string
+  clientSecret: string
+  authType: string
+  clientType: string
+  activeTimeout: string
+  timeout: string
+  status: string
+  createUser: string
+  createTime: string
+  updateUser: string
+  updateTime: string
+  createUserString: string
+  updateUserString: string
+}
+export interface ClientQuery {
+  clientKey: string
+  clientSecret: string
+  authType: string[]
+  clientType: string
+  status: string
+  sort: Array<string>
+}
+export interface ClientPageQuery extends ClientQuery, PageQuery {}
 
 /** 系统参数类型 */
 export interface OptionResp {

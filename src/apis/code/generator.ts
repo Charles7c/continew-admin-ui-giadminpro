@@ -32,11 +32,19 @@ export function genPreview(tableNames: Array<string>) {
 }
 
 /** @desc 生成代码 */
-export function generate(tableNames: Array<string>) {
+export function downloadCode(tableNames: Array<string>) {
+  return http.requestNative({
+    url: `${BASE_URL}/${tableNames}/download`,
+    method: 'post',
+    responseType: 'blob',
+  })
+}
+
+/** @desc 生成代码 */
+export function generateCode(tableNames: Array<string>) {
   return http.requestNative({
     url: `${BASE_URL}/${tableNames}`,
     method: 'post',
-    responseType: 'blob',
   })
 }
 

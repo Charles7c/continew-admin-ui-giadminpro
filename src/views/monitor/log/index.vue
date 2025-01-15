@@ -1,10 +1,10 @@
 <template>
-  <div class="table-page">
-    <a-row justify="space-between" align="center" class="header">
+  <div class="gi_table_page">
+    <!-- <a-row justify="space-between" align="center" class="header">
       <a-space wrap>
         <div class="title">系统日志</div>
       </a-space>
-    </a-row>
+    </a-row> -->
     <a-tabs v-model:active-key="activeKey" type="card-gutter" size="large" @change="change">
       <a-tab-pane key="1">
         <template #title><icon-lock /> 登录日志</template>

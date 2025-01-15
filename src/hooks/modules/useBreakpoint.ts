@@ -17,7 +17,7 @@ export function useBreakpoint() {
 
   const arr = breakpoints.current() as ComputedRef<Breakpoint[]>
   const breakpoint = computed(() => {
-    return arr.value[arr.value.length - 1] || 'xs'
+    return arr.value.length ? arr.value[arr.value.length - 1] : 'xs'
   })
 
   return { breakpoint }

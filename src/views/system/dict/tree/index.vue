@@ -191,6 +191,9 @@ onMounted(() => {
   .arco-typography {
     color: rgb(var(--primary-6));
   }
+  .action {
+    opacity: 1;
+  }
 }
 
 .container {
@@ -218,7 +221,7 @@ onMounted(() => {
     background-color: var(--color-bg-1);
     position: relative;
     height: 100%;
-    margin-bottom:10px;
+/*    margin-bottom:10px;*/
     .tree {
       position: absolute;
       top: 0;

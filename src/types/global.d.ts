@@ -14,10 +14,8 @@ export interface LabelValueState {
   extra?: string
 }
 
-/** 字典类型 */
-export interface DictState {
-  code: string
-  items: Array<LabelValueState>
+declare global{
+  type Recordable<T = any> = Record<string, T>
 }
 
 /** 状态（1：启用；2：禁用） */

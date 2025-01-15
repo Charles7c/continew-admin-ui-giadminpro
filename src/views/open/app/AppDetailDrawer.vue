@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { useWindowSize } from '@vueuse/core'
-import { type AppResp, getApp as getData } from '@/apis/open/app'
+import { type AppResp, getApp as getDetail } from '@/apis/open/app'
 
 const { width } = useWindowSize()
 
@@ -27,7 +27,7 @@ const visible = ref(false)
 
 // 查询详情
 const getDataDetail = async () => {
-  const { data } = await getData(dataId.value)
+  const { data } = await getDetail(dataId.value)
   dataDetail.value = data
 }
 

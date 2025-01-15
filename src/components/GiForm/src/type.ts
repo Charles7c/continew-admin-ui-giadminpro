@@ -50,6 +50,7 @@ export type ColumnsItemPropsKey =
   | keyof A.AlertInstance['$props']
 
 export type ColumnsItemHide<F> = boolean | ((form: F) => boolean)
+export type ColumnsItemShow<F> = boolean | ((form: F) => boolean)
 export type ColumnsItemDisabled<F> = boolean | ((form: F) => boolean)
 export type ColumnsItemRequest<F = any> = (form: F) => Promise<any>
 export type ColumnsItemFormat<T = any> = (
@@ -101,6 +102,7 @@ export interface ColumnsItem<F = any> {
   // 下拉树组件的data
   span?: A.GridItemProps['span']
   data?: A.TreeSelectInstance['$props']['data']
+  show?: ColumnsItemShow<F> // 是否显示（优先级比hide高）
   hide?: ColumnsItemHide<F> // 是否隐藏
   disabled?: ColumnsItemDisabled<F> // 是否禁用
   request?: ColumnsItemRequest<F> // 接口请求api
