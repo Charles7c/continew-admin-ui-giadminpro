@@ -29,4 +29,12 @@ declare namespace App {
     label: string
     value: AnimateType
   }
+
+  /** 字典项 */
+  interface DictItem {
+    disabled?: boolean
+    extra?: string
+    label: string
+    value: string
+  }
 }

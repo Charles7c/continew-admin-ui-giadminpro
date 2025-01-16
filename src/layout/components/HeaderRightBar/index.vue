@@ -41,7 +41,7 @@
 
       <!-- 暗黑模式切换 -->
       <a-tooltip content="主题切换" position="bottom">
-        <GiThemeBtn></GiThemeBtn>
+        <ToggleDark />
       </a-tooltip>
 
       <!-- 管理员账户 -->
