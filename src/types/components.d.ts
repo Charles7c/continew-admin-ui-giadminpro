@@ -58,6 +58,7 @@ declare module 'vue' {
     SecondForm: typeof import('./../components/GenCron/CronForm/component/second-form.vue')['default']
     SplitPanel: typeof import('./../components/SplitPanel/index.vue')['default']
     TextCopy: typeof import('./../components/TextCopy/index.vue')['default']
+    ToggleDark: typeof import('./../components/ToggleDark/index.vue')['default']
     UserSelect: typeof import('./../components/UserSelect/index.vue')['default']
     Verify: typeof import('./../components/Verify/index.vue')['default']
     VerifyPoints: typeof import('./../components/Verify/Verify/VerifyPoints.vue')['default']

@@ -1,37 +1,39 @@
 import { defineStore } from 'pinia'
-import type { LabelValueState } from '@/types/global'
 
 const storeSetup = () => {
-  const dictData = ref(new Map<string, LabelValueState[]>())
+  const dictData = ref<Record<string, App.DictItem[]>>({})
 
   // 设置字典
-  const setDict = (code: string, items: Array<LabelValueState>) => {
+  const setDict = (code: string, items: App.DictItem[]) => {
     if (code) {
-      dictData.value.set(code, items)
+      dictData.value[code] = items
     }
   }
 
   // 获取字典
   const getDict = (code: string) => {
-    if (!code) return null
-    return dictData.value.get(code) || null
+    if (!code) {
+      return null
+    }
+    return dictData.value[code] || null
   }
 
   // 删除字典
   const deleteDict = (code: string) => {
-    try {
-      return dictData.value.delete(code)
-    } catch (e) {
+    if (!code || !(code in dictData.value)) {
       return false
     }
+    delete dictData.value[code]
+    return true
   }
 
   // 清空字典
   const cleanDict = () => {
-    dictData.value.clear()
+    dictData.value = {}
   }
 
   return {
+    dictData,
     setDict,
     getDict,
     deleteDict,

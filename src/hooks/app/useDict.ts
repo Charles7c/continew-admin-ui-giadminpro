@@ -2,34 +2,42 @@ import { ref, toRefs } from 'vue'
 import { listCommonDict } from '@/apis'
 import { useDictStore } from '@/stores'
 
-const dictStore = useDictStore()
-const tmpCodeZone: string[] = []
-export function useDict(...codes: Array<string>) {
-  const res = ref<any>({})
-  return (() => {
-    codes.forEach((code) => {
-      res.value[code] = []
-      const dict = dictStore.getDict(code)
-      if (dict) {
-        res.value[code] = dict
-      } else {
-        if (!tmpCodeZone.includes(code)) {
-          // 防止多次触发
-          tmpCodeZone.push(code)
-          listCommonDict(code).then((resp) => {
-            res.value[code] = resp.data
-            dictStore.setDict(code, res.value[code])
-            tmpCodeZone.splice(tmpCodeZone.indexOf(code), 1)
-          }).catch(() => {
-            tmpCodeZone.splice(tmpCodeZone.indexOf(code), 1)
-          })
-        } else {
-          res.value[code] = computed(() => {
-            return dictStore.getDict(code)
-          })
-        }
-      }
+const pendingRequests = new Map<string, Promise<any>>()
+
+export function useDict(...codes: string[]) {
+  const dictStore = useDictStore()
+  const dictData = ref<Record<string, App.DictItem[]>>({})
+
+  codes.forEach(async (code) => {
+    dictData.value[code] = []
+
+    const cached = dictStore.getDict(code)
+    if (cached) {
+      dictData.value[code] = cached
+      return
+    }
+
+    if (!pendingRequests.has(code)) {
+      const request = listCommonDict(code)
+        .then(({ data }) => {
+          dictStore.setDict(code, data)
+          return data
+        })
+        .catch((error) => {
+          console.error(`Failed to load dict: ${code}`, error)
+          return []
+        })
+        .finally(() => {
+          pendingRequests.delete(code)
+        })
+
+      pendingRequests.set(code, request)
+    }
+
+    pendingRequests.get(code)!.then((data) => {
+      dictData.value[code] = data
     })
-    return toRefs(res.value)
-  })()
+  })
+
+  return toRefs(dictData.value)
 }
