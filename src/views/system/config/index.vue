@@ -18,6 +18,9 @@
       <a-tab-pane key="4">
         <template #title><icon-lock /> 登录配置</template>
       </a-tab-pane>
+      <a-tab-pane key="5">
+        <template #title><icon-storage /> 存储配置</template>
+      </a-tab-pane>
     </a-tabs>
     <keep-alive>
       <component :is="PanMap[activeKey]" />
@@ -31,6 +34,7 @@ import BasicSetting from './components/BasicSetting.vue'
 import SecuritySetting from './components/SecuritySetting.vue'
 import MailSetting from './components/MailSetting.vue'
 import LoginSetting from './components/LoginSetting.vue'
+import StorageSetting from './components/StorageSetting.vue'
 
 defineOptions({ name: 'SystemConfig' })
 
@@ -39,6 +43,7 @@ const PanMap: Record<string, Component> = {
   2: SecuritySetting,
   3: MailSetting,
   4: LoginSetting,
+  5: StorageSetting,
 }
 
 const route = useRoute()
