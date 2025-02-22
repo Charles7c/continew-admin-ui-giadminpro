@@ -22,6 +22,7 @@ const searchInput = ref<HTMLInputElement | null>(null)
 const searchKeyword = ref('')
 const searchHistory = ref<SearchHistory[]>([])
 const searchResults = ref<SearchResult[]>([])
+const selectedIndex = ref(-1)
 
 const searchRoutes = (keyword: string) => {
   const result: SearchResult[] = []
@@ -81,6 +82,18 @@ useEventListener('keydown', (e) => {
 const handleKeyDown = (e: KeyboardEvent) => {
   if (e.key === 'Escape') {
     visible.value = false
+  } else if (e.key === 'ArrowDown') {
+    if (selectedIndex.value < searchResults.value.length - 1) {
+      selectedIndex.value++
+    }
+  } else if (e.key === 'ArrowUp') {
+    if (selectedIndex.value > 0) {
+      selectedIndex.value--
+    }
+  } else if (e.key === 'Enter') {
+    if (selectedIndex.value >= 0 && selectedIndex.value < searchResults.value.length) {
+      handleResultClick(searchResults.value[selectedIndex.value])
+    }
   }
 }
 
@@ -92,6 +105,7 @@ watch(visible, (newValue) => {
   } else {
     searchResults.value = []
     searchKeyword.value = ''
+    selectedIndex.value = -1
   }
 })
 
@@ -113,7 +127,6 @@ watch(searchKeyword, (newValue) => {
   <div class="search-modal">
     <a-modal
       :visible="visible"
-      :footer="false"
       :mask-closable="true"
       :align-center="false"
       :closable="false"
@@ -124,12 +137,7 @@ watch(searchKeyword, (newValue) => {
       <template #title>
         <div class="search-input-wrapper">
           <icon-search :size="24" />
-          <input
-            ref="searchInput"
-            v-model="searchKeyword"
-            placeholder="搜索页面"
-            class="search-input"
-          >
+          <input ref="searchInput" v-model="searchKeyword" placeholder="搜索页面" class="search-input">
           <div class="esc-tip">
             ESC 退出
           </div>
@@ -142,10 +150,8 @@ watch(searchKeyword, (newValue) => {
           </div>
           <div class="result-list">
             <div
-              v-for="item in searchResults"
-              :key="item.path"
-              class="result-item"
-              @click="handleResultClick(item)"
+              v-for="(item, index) in searchResults" :key="item.path" class="result-item"
+              :class="{ selected: selectedIndex === index }" @click="handleResultClick(item)"
             >
               <icon-file :size="18" style="margin-right: 6px;" />
               <div class="result-title">
@@ -159,21 +165,12 @@ watch(searchKeyword, (newValue) => {
             <div class="history-title">
               搜索历史
             </div>
-            <a-button
-              type="text"
-              size="small"
-              class="text-xs"
-              @click="clearHistory"
-            >
+            <a-button type="text" size="small" class="text-xs" @click="clearHistory">
               清空历史
             </a-button>
           </div>
           <div class="history-list">
-            <div
-              v-for="item in searchHistory" :key="item.path"
-              class="history-item"
-              @click="handleHistoryClick(item)"
-            >
+            <div v-for="item in searchHistory" :key="item.path" class="history-item" @click="handleHistoryClick(item)">
               <icon-history :size="18" style="margin-right: 6px;" />
               <div class="result-title">
                 {{ item.title }}
@@ -182,6 +179,16 @@ watch(searchKeyword, (newValue) => {
           </div>
         </div>
       </div>
+      <template #footer>
+        <div class="shortcut">
+          <GiSvgIcon name="select" :size="12" class="shortcut-icon" />
+          <div>切换</div>
+        </div>
+        <div class="shortcut">
+          <GiSvgIcon name="shortcut-enter" :size="12" class="shortcut-icon" />
+          <div>选择</div>
+        </div>
+      </template>
     </a-modal>
   </div>
 </template>
@@ -336,6 +343,41 @@ watch(searchKeyword, (newValue) => {
     .dark & {
       color: #fff;
       background-color: var(--color-bg-4);
+    }
+  }
+}
+
+.selected {
+  color: #000;
+  background-color: #f3f4f6;
+
+  .dark & {
+    color: #fff;
+    background-color: var(--color-bg-4);
+  }
+}
+
+:deep(.arco-modal-footer){
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.shortcut{
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  gap: 8px;
+
+  &-icon{
+    padding: 4px;
+    background-color: #e5e7eb;
+    border-radius: 6px;
+    color: var(--color-text-1);
+
+    .dark & {
+      background-color: var(--color-bg-5);
     }
   }
 }
