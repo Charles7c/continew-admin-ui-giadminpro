@@ -113,7 +113,7 @@ const props = withDefaults(defineProps<Props>(), {
   scrollToFirstError: true,
   defaultCollapsed: false,
   search: false,
-  gridItemProps: { span: { xs: 24, sm: 12, xxl: 8 } },
+  gridItemProps: { span: { xs: 24, sm: 8, xxl: 8 } },
   searchBtnText: '搜索',
   hideFoldBtn: false,
   suffix: true,

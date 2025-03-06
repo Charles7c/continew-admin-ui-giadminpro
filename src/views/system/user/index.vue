@@ -113,16 +113,19 @@ const queryFormColumns: ColumnItem[] = reactive([
   {
     type: 'input',
     field: 'description',
+    span: { xs: 24, sm: 8, xxl: 8 },
     formItemProps: {
       hideLabel: true,
     },
     props: {
       placeholder: '搜索用户名/昵称/描述',
+      showWordLimit: false,
     },
   },
   {
     type: 'select',
     field: 'status',
+    span: { xs: 24, sm: 6, xxl: 8 },
     formItemProps: {
       hideLabel: true,
     },
@@ -134,6 +137,7 @@ const queryFormColumns: ColumnItem[] = reactive([
   {
     type: 'range-picker',
     field: 'createTime',
+    span: { xs: 24, sm: 10, xxl: 8 },
     formItemProps: {
       hideLabel: true,
     },
