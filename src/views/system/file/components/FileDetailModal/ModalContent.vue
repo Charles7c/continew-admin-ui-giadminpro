@@ -13,6 +13,8 @@
         </a-typography-paragraph>
       </a-descriptions-item>
       <a-descriptions-item label="大小">{{ formatFileSize(data.size) }}</a-descriptions-item>
+      <a-descriptions-item label="路径">{{ data.absPath + getFileName(data) }}</a-descriptions-item>
+      <a-descriptions-item label="MD5">{{ data.md5 }}</a-descriptions-item>
       <a-descriptions-item label="上传时间">{{ data.createTime }}</a-descriptions-item>
       <a-descriptions-item label="修改时间">{{ data.updateTime }}</a-descriptions-item>
       <a-descriptions-item label="存储名称">{{ data.storageName }}</a-descriptions-item>

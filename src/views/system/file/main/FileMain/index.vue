@@ -18,6 +18,10 @@
 
         <a-input-group>
           <a-input
+            v-model="queryForm.absPath" placeholder="路径" allow-clear style="width: 300px"
+            @change="search"
+          />
+          <a-input
             v-model="queryForm.name" placeholder="搜索文件名" allow-clear style="width: 200px"
             @change="search"
           />
@@ -110,6 +114,7 @@ const { mode, selectedFileIds, toggleMode, addSelectedFileItem } = useFileManage
 
 const queryForm = reactive<FileQuery>({
   name: undefined,
+  absPath: undefined,
   type: route.query.type?.toString() !== '0' ? route.query.type?.toString() : undefined,
   sort: ['updateTime,desc'],
 })

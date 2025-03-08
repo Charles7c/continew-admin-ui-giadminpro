@@ -204,8 +204,14 @@ export interface FileItem {
   name: string
   size: number
   url: string
+  parentPath: string
+  absPath: string
+  metadata: string
+  md5: string
+  contentType: string
   thumbnailSize: number
   thumbnailUrl: string
+  thumbnailMetadata: string
   extension: string
   type: number
   storageId: string
@@ -226,6 +232,7 @@ export interface FileStatisticsResp {
 export interface FileQuery {
   name?: string
   type?: string
+  absPath?: string
   sort: Array<string>
 }
 export interface FilePageQuery extends FileQuery, PageQuery {
