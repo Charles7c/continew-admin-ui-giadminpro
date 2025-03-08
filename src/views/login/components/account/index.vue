@@ -122,14 +122,14 @@ const handleLogin = async () => {
     })
     tabsStore.reset()
     const { redirect, ...othersQuery } = router.currentRoute.value.query
+    const { rememberMe } = loginConfig.value
+    loginConfig.value.username = rememberMe ? form.username : ''
     await router.push({
       path: (redirect as string) || '/',
       query: {
         ...othersQuery,
       },
     })
-    const { rememberMe } = loginConfig.value
-    loginConfig.value.username = rememberMe ? form.username : ''
     Message.success('欢迎使用')
   } catch (error) {
     console.error(error)
